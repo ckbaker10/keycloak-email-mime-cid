@@ -37,7 +37,7 @@ public class MimeEmailSenderProvider implements EmailSenderProvider {
     private static final String SUPPORTED_SSL_PROTOCOLS = getSupportedSslProtocols();
 
     private final KeycloakSession session;
-    
+
     public MimeEmailSenderProvider(KeycloakSession session) {
         this.session = session;
     }
@@ -172,7 +172,10 @@ public class MimeEmailSenderProvider implements EmailSenderProvider {
         // Search "cid:path" in body
         java.util.HashSet<String> paths = new java.util.HashSet<String>();
         java.util.regex.Matcher matcher = cidPattern.matcher(htmlBody);
-        while (matcher.find()) paths.add(matcher.group(1));
+        while (matcher.find()){
+            paths.add(matcher.group(1));
+            logger.debug("Found cid path: " + matcher.group(1));
+        } 
         
         // If none, use htmlPart
         if (paths.size() == 0) return htmlPart;
@@ -181,12 +184,14 @@ public class MimeEmailSenderProvider implements EmailSenderProvider {
         MimeMultipart content = new MimeMultipart("related");
         content.addBodyPart(htmlPart);
         
+        String currentPath = "";
         try {
             org.keycloak.theme.Theme.Type themeType = org.keycloak.theme.Theme.Type.EMAIL;
             org.keycloak.theme.Theme theme = session.theme().getTheme(themeType);
 
             // Add each embedded file
             for (String path : paths) {
+                currentPath = path;
                 java.io.InputStream inputStream = theme.getResourceAsStream(path);
                 if (inputStream != null) {
                     jakarta.activation.DataSource ds;
@@ -204,6 +209,7 @@ public class MimeEmailSenderProvider implements EmailSenderProvider {
                 }
             }
         } catch (java.io.IOException e) {
+            logger.debug("Couldn't add: " + currentPath);
             throw new EmailException("Error embedding resources", e);
         }
         

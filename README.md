@@ -37,3 +37,24 @@ Build the project with ```mvn package```
 Move the created ```email-provider-mime-0.1.jar``` to the providers directory within the keycloak directory
 
 Update the providers by either using start-dev or build
+
+# Debugging
+
+You can add ```--log-level="INFO,org.keycloak.email.DefaultEmailSenderProvider:debug"``` as a start parameter to enable the debug logs of this module
+
+# Example
+
+You can view a fully working keycloakify example here
+
+https://github.com/ckbaker10/keycloakify-starter/tree/email2fa-styling
+
+The commit of interest is here: https://github.com/ckbaker10/keycloakify-starter/commit/5e94503e0084d3c026da70a311902f9f987d69a0
+
+Using this provider allows for images to be displayed properly in email clients
+
+![email1.png](./img/email1.png)
+
+Proof of the image beeing sent as mime part
+
+![email2.png](./img/email2.png)
+
