@@ -4,9 +4,9 @@ A lot of work of this project is from other people.
 
 I've just put it together and provide example templates for how to use with keycloakify
 
-Thanks to [@sventorben] (https://github.com/sventorben) for writing a keycloak email spi tutorial
+Thanks to [@sventorben](https://github.com/sventorben) for writing a keycloak email spi tutorial
 
-Thanks to [@bocca] (https://github.com/bocca) for supplying the already implemented cid code
+Thanks to [@bocca](https://github.com/bocca) for supplying the already implemented cid code
 
 Thanks to [@keycloak](https://github.com/keycloak) for providing this program as open source
 
