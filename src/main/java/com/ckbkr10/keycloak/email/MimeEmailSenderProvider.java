@@ -41,21 +41,6 @@ public class MimeEmailSenderProvider implements EmailSenderProvider {
     public MimeEmailSenderProvider(KeycloakSession session) {
         this.session = session;
     }
-    /*   
-    
-     default void send(Map<String, String> config, UserModel user, String subject, String textBody, String htmlBody) throws EmailException {
-        send(config, user.getEmail(), subject, textBody, htmlBody);
-    }
-
-    void send(Map<String, String> config, String address, String subject, String textBody, String htmlBody) throws EmailException;
-
-     */
-
-    @Override
-    public void send(Map<String, String> config, UserModel user, String subject, String textBody, String htmlBody) throws EmailException {
-        send(config, user.getEmail(), subject, textBody, htmlBody);
-    }
-
     @Override
     public void send(Map<String, String> config, String address, String subject, String textBody, String htmlBody) throws EmailException {
         Transport transport = null;
@@ -149,7 +134,7 @@ public class MimeEmailSenderProvider implements EmailSenderProvider {
             transport.sendMessage(msg, new InternetAddress[]{new InternetAddress(address)});
         } catch (Exception e) {
             ServicesLogger.LOGGER.failedToSendEmail(e);
-            throw new EmailException(e);
+            throw new EmailException(e.getMessage(), e);
         } finally {
             if (transport != null) {
                 try {
